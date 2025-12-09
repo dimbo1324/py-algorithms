@@ -1,6 +1,5 @@
 class Solution(object):
     def transpose(self, matrix):
-        # Обработка пустой матрицы или строк без столбцов
         if not matrix or not matrix[0]:
             return []
 
