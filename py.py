@@ -7,6 +7,8 @@ class Solution:
     def trap(self, height: List[int]) -> int:
         ans = 0
         distance = len(height)
+        right_lim = height[distance - 1]
+
         if distance > 3:
             # ------------------------------------
             # ------------------------------------
@@ -15,6 +17,7 @@ class Solution:
                 left, mid, right = height[i - 2], height[i - 1], height[i]
                 delta = 0
                 is_pit = mid < left and mid < right
+                is_hill = mid > left and mid > right
 
                 if is_pit:
                     if dif == 0:
@@ -29,11 +32,21 @@ class Solution:
                         else:
                             delta = min_hg - mid
 
-                elif not is_pit:
-                    if i + 1 <= distance:
-                        next_after_right = height[i + 1]
-                        if right < next_after_right:
-                            
+                elif is_hill:
+                    delta = 0
+
+                else:
+                    if mid > right and right_lim > 0:
+                        begin = i + 1
+                        count = 1
+                        if begin < distance:
+                            delta = 1
+                            for j in range(begin, distance):
+                                if height[j] == right:
+                                    delta += 1
+                                elif height[j] > right:
+                                    delta = 1 if delta < 2 else delta
+                                    break
 
                 ans += delta
             # ------------------------------------
