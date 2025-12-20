@@ -5,8 +5,8 @@ from typing import List
 
 class Solution:
     def trap(self, height: List[int]) -> int:
-        distance = len(height)
         ans = 0
+        distance = len(height)
         if distance > 3:
             # ------------------------------------
             # ------------------------------------
@@ -14,17 +14,22 @@ class Solution:
             for i in range(2, distance):
                 dif = abs(height[i] - height[i - 2])
                 left, mid, right = height[i - 2], height[i - 1], height[i]
+                delta = 0
 
-                cond_1: bool = dif == 0 and mid < left and mid < right
-                cond_2: bool = left != right
-                cond_3: bool = False
+                if dif == 0 and mid < left and mid < right:
+                    if mid == 0:
+                        delta = right
+                    else:
+                        delta = right - mid
 
-                if cond_1:
-                    ans += 1
-
-                if cond_2:
+                elif dif != 0 and mid < left and mid < right:
                     min_hg = min(left, right)
-                    ans += 1
+                    if mid == 0:
+                        delta = min_hg
+                    else:
+                        delta = min_hg - mid
+
+                ans += delta
             # ------------------------------------
             # ------------------------------------
 
