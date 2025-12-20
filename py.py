@@ -10,24 +10,30 @@ class Solution:
         if distance > 3:
             # ------------------------------------
             # ------------------------------------
-            # left_lim, right_lim = height[0], height[distance - 1]
             for i in range(2, distance):
                 dif = abs(height[i] - height[i - 2])
                 left, mid, right = height[i - 2], height[i - 1], height[i]
                 delta = 0
+                is_pit = mid < left and mid < right
 
-                if dif == 0 and mid < left and mid < right:
-                    if mid == 0:
-                        delta = right
+                if is_pit:
+                    if dif == 0:
+                        if mid == 0:
+                            delta = right
+                        else:
+                            delta = right - mid
                     else:
-                        delta = right - mid
+                        min_hg = min(left, right)
+                        if mid == 0:
+                            delta = min_hg
+                        else:
+                            delta = min_hg - mid
 
-                elif dif != 0 and mid < left and mid < right:
-                    min_hg = min(left, right)
-                    if mid == 0:
-                        delta = min_hg
-                    else:
-                        delta = min_hg - mid
+                elif not is_pit:
+                    if i + 1 <= distance:
+                        next_after_right = height[i + 1]
+                        if right < next_after_right:
+                            
 
                 ans += delta
             # ------------------------------------
