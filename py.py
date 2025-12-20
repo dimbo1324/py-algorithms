@@ -38,15 +38,18 @@ class Solution:
                 else:
                     if mid > right and right_lim > 0:
                         begin = i + 1
-                        count = 1
                         if begin < distance:
-                            delta = 1
+                            count = 1
                             for j in range(begin, distance):
                                 if height[j] == right:
-                                    delta += 1
+                                    count += 1
                                 elif height[j] > right:
-                                    delta = 1 if delta < 2 else delta
-                                    break
+                                    if count == 1:
+                                        delta = 1
+                                        break
+                                    else:
+                                        delta += count
+                                       
 
                 ans += delta
             # ------------------------------------
