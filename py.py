@@ -7,51 +7,28 @@ class Solution:
     def trap(self, height: List[int]) -> int:
         ans = 0
         distance = len(height)
-        right_lim = height[distance - 1]
-
         if distance > 3:
             # ------------------------------------
             # ------------------------------------
-            for i in range(2, distance):
-                dif = abs(height[i] - height[i - 2])
-                left, mid, right = height[i - 2], height[i - 1], height[i]
-                delta = 0
-                is_pit = mid < left and mid < right
-                is_hill = mid > left and mid > right
-
-                if is_pit:
-                    if dif == 0:
-                        if mid == 0:
-                            delta = right
-                        else:
-                            delta = right - mid
+            lt, rg = 0, distance - 1
+            lt_max, rg_max = 0, 0
+            while lt <= rg:
+                if height[lt] <= height[rg]:
+                    if height[lt] >= lt_max:
+                        lt_max = height[lt]
                     else:
-                        min_hg = min(left, right)
-                        if mid == 0:
-                            delta = min_hg
-                        else:
-                            delta = min_hg - mid
+                        ans += lt_max - height[lt]
 
-                elif is_hill:
-                    delta = 0
+                    lt += 1
 
                 else:
-                    if mid > right and right_lim > 0:
-                        begin = i + 1
-                        if begin < distance:
-                            count = 1
-                            for j in range(begin, distance):
-                                if height[j] == right:
-                                    count += 1
-                                elif height[j] > right:
-                                    if count == 1:
-                                        delta = 1
-                                        break
-                                    else:
-                                        delta += count
-                                       
+                    if height[rg] >= rg_max:
+                        rg_max = height[rg]
+                    else:
+                        ans += rg_max - height[rg]
 
-                ans += delta
+                    rg -= 1
+
             # ------------------------------------
             # ------------------------------------
 
